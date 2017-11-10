@@ -4,7 +4,7 @@ import sys
 import re
 import time
 
-VERSION = "2017.0.3"
+VERSION = "2017.0.4"
 INFO_STRING = """
 
 ----
@@ -56,7 +56,7 @@ def process_expression(expression):
 	# they occur in the expression. If they do, it performs the operations
 	# however many times they occur. Then the broken down expression is
 	# replaced with the evaluation.
-	expression = re.split(r'([0-9.]+|\^\*/%\+\-)', expression)
+	expression = re.split(r'([0-9.e]+|\^\*/%\+\-)', expression)
 	while '' in expression: expression.remove('')
 	print expression
 	for operator in operators:
