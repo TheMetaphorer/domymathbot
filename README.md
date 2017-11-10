@@ -6,7 +6,7 @@ This is a bot that evaluates simple mathematic expressions. It is currently earl
 in its developmental stages, so I plan to add more complex operations and capabilities
 in the future. 
 
-Currently it is able to process an operation using the integers and the following operators:
+Currently it is able to process an operation using floating point numbers and the following operators:
 
 ^, *, /, %, +, -,
 
@@ -24,3 +24,10 @@ Currently it is able to process an operation using the integers and the followin
 
 ## 2017.0.2
  - Fixed bug where every answer was wrong due to incorrect expression processing
+
+
+## 2017.0.3
+ - Added float support.
+ - Improved code efficiency
+ - Added specific comment reply for division by 0
+ - Decreased sleep time between each coment from 10 seconds to 2.2 seconds
