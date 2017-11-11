@@ -40,3 +40,8 @@ Will result in the bot replying that the answer is 1000000000.0
 
 ## 2017.0.4
  - Added support for e notation for exponents
+
+## 2017.1.0
+ - Added support for parentheses
+ - Make domymathbot a package
+ - Added exceptions module
