@@ -8,13 +8,7 @@ from .components import Expression, nth_index
 from .settings import OPERATORS, VERSION, INFO_STRING
 
 
-DMMB = praw.Reddit(
-	client_id='s-ySTKY_YvDqHg',
-	client_secret='GhGxbrJytapICRn56sQk0hisq08',
-	user_agent='A bot by u/TheMetaphorer that solves math problems',
-	username='DoMyMathBot',
-	password='dmymthbt2017!',
-	)
+# OAUTH AUTHENTICATION CODE OMITTED
 
 def replace_values(li, string, ind1, ind2):
 	print li
