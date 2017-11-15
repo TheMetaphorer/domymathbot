@@ -54,3 +54,6 @@ Will result in the bot replying that the answer is 1000000000.0
  - Added recursive parentheses support
  - Created class for expressions, making operations more efficient while slimming code
  - Increase sleep time between each comment from 2.2 to 3 seconds
+
+## 2017.2.1
+ - Added step by step solutions for all problems

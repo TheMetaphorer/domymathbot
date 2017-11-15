@@ -7,7 +7,6 @@ from .exceptions import MissingParenthesesException
 from .components import Expression, nth_index
 from .settings import OPERATORS, VERSION, INFO_STRING
 
-
 # OAUTH AUTHENTICATION CODE OMITTED
 
 def replace_values(li, string, ind1, ind2):
@@ -22,12 +21,14 @@ def replace_values(li, string, ind1, ind2):
 # Tests to see how many times an operator occurs
 # in an expression.
 
+step_by_step = []
 
 def operator_in_expression(operator, expression):
 	occurrences = expression.count(operator)
 	return occurrences if occurrences > 0 else False
 	
 def operator_evals(expression):
+	global step_by_step
 	while len(expression) > 1:
 		j = len(expression)
 		for i in range(j):
@@ -50,6 +51,7 @@ def operator_evals(expression):
 					expression = replace_values(expression, str(num1+num2), i-1, i+2)
 				elif operator == '-':
 					expression = replace_values(expression, str(num1-num2), i-1, i+2)
+			step_by_step.append(''.join(expression))
 	return expression[0]
 
 
@@ -78,6 +80,7 @@ def process_expression(expression, parentheses=False):
 						
 def scan_subreddit(sub):
 	subreddit = DMMB.subreddit(sub)
+	global step_by_step
 	for comment in subreddit.stream.comments():
 		# Checks to see if the comment is a request to the Math bot.
 		try:
@@ -88,8 +91,8 @@ def scan_subreddit(sub):
 				expr = Expression(expr)
 				ans=process_expression(expr)
 				print '\n'.join(step_by_step)
+				comment.reply("The answer is {0}! \n Step by Step Solution:\n{1}".format(ans, '\n'.join(step_by_step)) + INFO_STRING)
 				step_by_step = []
-				comment.reply("The answer is {0}!".format(ans) + INFO_STRING)
 				time.sleep(3)
 		except praw.exceptions.APIException as e:
 			cooldown_time = [float(mins) for mins in str(e) if mins.isdigit()][0] * 60;
