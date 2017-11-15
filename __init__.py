@@ -1,5 +1,6 @@
-import domymathbot
+import bot
 import exceptions
+import settings
 
-def start():
-	domymathbot.main()
+def start(args):
+	bot.main(args)

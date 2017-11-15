@@ -10,7 +10,8 @@ Summon the bot by commenting *!domath ...* on a thread. Currently it is able to 
 
 ^, *, /, %, +, -,
 
-It also has exponent support by using a lowercase e, not separated by spaces or any other characters. Example:
+It also has support for order of operations and parentheses. Nested parentheses work too. 
+Shorthand Exponent support by using a lowercase e, not separated by spaces or any other characters, is also available. Example:
 
 *!domath 1e9*
 
@@ -45,3 +46,11 @@ Will result in the bot replying that the answer is 1000000000.0
  - Added support for parentheses
  - Make domymathbot a package
  - Added exceptions module
+
+## 2017.1.1
+ - Add argument passing when starting bot
+
+## 2017.2.0
+ - Added recursive parentheses support
+ - Created class for expressions, making operations more efficient while slimming code
+ - Increase sleep time between each comment from 2.2 to 3 seconds
