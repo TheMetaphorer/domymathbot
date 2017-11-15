@@ -91,7 +91,7 @@ def scan_subreddit(sub):
 				expr = Expression(expr)
 				ans=process_expression(expr)
 				print '\n'.join(step_by_step)
-				comment.reply("The answer is {0}! \n Step by Step Solution:\n{1}".format(ans, '\n'.join(step_by_step)) + INFO_STRING)
+				comment.reply("The answer is {0}! \n Step by Step Solution:\n{1}".format(ans, '\n\n'.join(step_by_step)) + INFO_STRING)
 				step_by_step = []
 				time.sleep(3)
 		except praw.exceptions.APIException as e:

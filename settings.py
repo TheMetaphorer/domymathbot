@@ -1,4 +1,4 @@
-VERSION = "2017.2.0"
+VERSION = "2017.2.1"
 INFO_STRING = """
 
 ----
