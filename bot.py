@@ -17,18 +17,8 @@ def replace_values(li, string, ind1, ind2):
 		li[ind1:ind2] = ''
 		li.components.insert(ind1, string)
 		return li
-		
-# Tests to see how many times an operator occurs
-# in an expression.
-
-step_by_step = []
-
-def operator_in_expression(operator, expression):
-	occurrences = expression.count(operator)
-	return occurrences if occurrences > 0 else False
 	
 def operator_evals(expression):
-	global step_by_step
 	while len(expression) > 1:
 		j = len(expression)
 		for i in range(j):
@@ -51,7 +41,6 @@ def operator_evals(expression):
 					expression = replace_values(expression, str(num1+num2), i-1, i+2)
 				elif operator == '-':
 					expression = replace_values(expression, str(num1-num2), i-1, i+2)
-			step_by_step.append(''.join(expression))
 	return expression[0]
 
 
@@ -87,11 +76,10 @@ def scan_subreddit(sub):
 			if comment.body.startswith('!domath'):
 				print 'Math request from u/{0}'.format(comment.author.name)
 				expr = comment.body.replace('!domath', '').replace(' ', '')
-				print expr
+				print "Evaluating {0}".format(expr)
 				expr = Expression(expr)
 				ans=process_expression(expr)
-				print '\n'.join(step_by_step)
-				comment.reply("The answer is {0}! \n Step by Step Solution:\n{1}".format(ans, '\n\n'.join(step_by_step)) + INFO_STRING)
+				comment.reply("The answer is {0}!".format(ans) + INFO_STRING)
 				step_by_step = []
 				time.sleep(3)
 		except praw.exceptions.APIException as e:
@@ -108,9 +96,9 @@ def scan_subreddit(sub):
 			else:
 				print str(e)
 				comment.reply("Oops! There's something wrong! I can't solve this problem!" + INFO_STRING)
-				time.sleep(3)
+				time.sleep(3) 
 	
 	
 def main(args):
-	print OPERATORS, VERSION
+	print "Starting DoMyMathBot Version {0}".format(VERSION)
 	scan_subreddit(args)

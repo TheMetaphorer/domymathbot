@@ -57,3 +57,6 @@ Will result in the bot replying that the answer is 1000000000.0
 
 ## 2017.2.1
  - Added step by step solutions for all problems
+
+## 2017.2.2
+ - Removed step by step solutions
