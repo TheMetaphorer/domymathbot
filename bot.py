@@ -5,12 +5,11 @@ import re
 import time
 from .exceptions import MissingParenthesesException
 from .components import Expression, nth_index
-from .settings import OPERATORS, VERSION, INFO_STRING
+from .settings import OPERATORS, VERSION, INFO_STRING, CONSTANTS
 
 # OAUTH AUTHENTICATION CODE OMITTED
 
 def replace_values(li, string, ind1, ind2):
-	print li
 	if len(li) == 3:
 		return [string]
 	else:
@@ -26,11 +25,11 @@ def operator_evals(expression):
 			if expression[i] in OPERATORS:
 				operator = expression[i]
 				num1 = float(expression[i-1])
-				print num1
-				num2 = float(expression[i+1])
-				print num2
+				num2 = float(expression[i+1]) if operator != '!' else None
 				if operator == '^':
 					expression = replace_values(expression, str(num1**num2), i-1, i+2)
+				elif operator == '!':
+					expression = replace_values(expression, math.factorial(num1), i-1, i+1)
 				elif operator == '*':
 					expression = replace_values(expression, str(num1*num2), i-1, i+2)
 				elif operator == '/':
@@ -41,6 +40,8 @@ def operator_evals(expression):
 					expression = replace_values(expression, str(num1+num2), i-1, i+2)
 				elif operator == '-':
 					expression = replace_values(expression, str(num1-num2), i-1, i+2)
+			elif expression[i] in CONSTANTS.keys():
+				expression[i] = CONSTANTS[expression[i]]
 	return expression[0]
 
 
@@ -90,13 +91,13 @@ def scan_subreddit(sub):
 		except MissingParenthesesException:
 			comment.reply("You're missing a closing parentheses!" + INFO_STRING)
 		
-		except Exception as e:
+"""		except Exception as e:
 			if 'division by zero' in str(e):
 				comment.reply("You can't divide by zero! You should've known better." + INFO_STRING)
 			else:
 				print str(e)
 				comment.reply("Oops! There's something wrong! I can't solve this problem!" + INFO_STRING)
-				time.sleep(3) 
+				time.sleep(3) """
 	
 	
 def main(args):

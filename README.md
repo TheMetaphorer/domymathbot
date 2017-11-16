@@ -60,3 +60,7 @@ Will result in the bot replying that the answer is 1000000000.0
 
 ## 2017.2.2
  - Removed step by step solutions
+
+## 2017.2.3
+ - Added factorial support
+ - Added support for mathematical constants pi and e
