@@ -6,7 +6,7 @@ This is a bot that evaluates simple mathematic expressions. It is currently earl
 in its developmental stages, so I plan to add more complex operations and capabilities
 in the future. 
 
-Summon the bot by commenting *!domath ...* on a thread. Currently it is able to process an operation using floating point numbers and the following operators:
+Summon the bot by commenting **u/DoMyMathBot *function* ** on a thread. Currently it is able to process an operation using floating point numbers and the following operators:
 
 ^, *, /, %, +, -,
 
@@ -64,3 +64,9 @@ Will result in the bot replying that the answer is 1000000000.0
 ## 2017.2.3
  - Added factorial support
  - Added support for mathematical constants pi and e
+
+## 2017.3.0
+	- Changed summon keyword: summon with u/DoMyMathBot domath
+	- Added support for redis caching
+	- DoMyMathBot now bypasses comments it has already replied to
+	- Improved logging and debugging support

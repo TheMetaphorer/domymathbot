@@ -13,3 +13,12 @@ class MissingParenthesesException(Exception):
 	def __init__(self):
 		super(MissingParenthesesException, self).__init__("You're missing a closing parentheses!")
 		
+		
+class RedisException(Exception):
+	
+	def __init__(self, *msg):
+		if msg:
+			super(RedisException, self).__init__(msg)
+		else:
+			super(RedisException, self).__init__("There was a problem with redis.")
+		
