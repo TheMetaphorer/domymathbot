@@ -29,3 +29,5 @@ class BotCache:
 			return True
 		return False
 		
+	def add_function(self):
+		pass

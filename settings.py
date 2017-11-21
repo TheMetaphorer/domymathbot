@@ -1,7 +1,7 @@
 import math
 import os
 
-VERSION = "2017.3.0"
+VERSION = "2017.4.0_DEV"
 INFO_STRING = """
 
 ----
@@ -11,4 +11,8 @@ INFO_STRING = """
 
 OPERATORS = ['^', '!', '*', '/','%', '+', '-']
 CONSTANTS = {'pi':math.pi, 'e':math.e }
+FUNCTIONS = [
+	'sin', 'cos', 'tan', 'log', 'ln',
+	'degrees', 'radians', 'acos', 'asin',
+	'atan', 'sqrt']
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))

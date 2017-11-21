@@ -19,6 +19,9 @@ def configurate_logger():
 	logging.basicConfig(level=logging.INFO,
 	                    format='%(asctime)s %(levelname)s %(message)s',)
 
+# Scans through a subreddit for math requests from various users
+# Runs indefinitely until program is stopped: pass 'all' to sub
+# to scan all comments submitted to reddit.
 def scan_subreddit(sub, redis_server):
 	subreddit = DMMB.subreddit(sub)
 	for comment in subreddit.stream.comments():
@@ -28,8 +31,6 @@ def scan_subreddit(sub, redis_server):
 				logging.info('Received request from u/{0}'.format(comment.author.name))
 				logging.info("Evaluating {0}".format(comment.body))
 				functions.process_request(comment.body, comment, redis_server, logging)
-				logging.info('Adding {0} to database...'.format(comment.id))
-				redis_server.add_comment(comment)
 				logging.info('Saving redis cache to disk...')
 				redis_server.redis.save()
 				time.sleep(3)
@@ -52,6 +53,7 @@ def scan_subreddit(sub, redis_server):
 				comment.reply("Oops! There's something wrong! I can't solve this problem!" + settings.INFO_STRING)
 				time.sleep(3)
 
+# Main function of the bot. 
 def main(args):
 	redis_server = utils.BotCache('localhost', 6379, 0)
 	configurate_logger()

@@ -1,4 +1,5 @@
 import settings
+import math
 
 from .components import Expression
 
@@ -14,12 +15,14 @@ def _replace_constants(expression):
 	for i in range(len(expression)):
 		if expression[i] in settings.CONSTANTS.keys():
 			expression[i] = settings.CONSTANTS[expression[i]]
-			
+
 def _operator_evals(expression):
 	if any(token in settings.CONSTANTS.keys() for token in expression): _replace_constants(expression)
 	while len(expression) > 1:
 		j = len(expression)
 		for i in range(j):
+			if i > len(expression):
+				break
 			if any(i in expression for i in settings.OPERATORS) == False: break
 			if expression[i] in settings.OPERATORS:
 				operator = expression[i]
@@ -44,11 +47,25 @@ def _operator_evals(expression):
 				expression[i] = settings.CONSTANTS[expression[i]]
 	return expression[0]
 
+# Iterates through the expression from left to right,
+# Operating on it based on the order of operations.
+# Continues operating until there are no operators left
+# And the expression consists of only one number (the answer).
+# Known bug is the non-equivalence of certain signs in
+# The order of operations, (eg. * and /, or + and -)
 def _process_expression(expression, parentheses=False):
-	# Iterates through every operator in list of settings.OPERATORS to see if 
-	# they occur in the expression. If they do, it performs the operations
-	# however many times they occur. Then the broken down expression is
-	# replaced with the evaluation.
+	if any(func in token for func in settings.FUNCTIONS for token in expression):
+				for q in range(len(expression)):
+					if any(func in expression[q] for func in settings.FUNCTIONS):
+						f_expr_start = expression[q].index('(')+1
+						f_expr_end = expression[q].index(')')
+						f_expr = Expression(expression[q][f_expr_start:f_expr_end])
+						f_expr_ans = float(_process_expression(f_expr)[0])
+						function = [func for func in settings.FUNCTIONS if func in expression[q]][0]
+						print f_expr_ans
+						attr = getattr(math, function)
+						answer=attr(f_expr_ans)
+						expression[q] = answer
 	def recursive_parentheses(expression):
 		for k in range(expression.sub_expression_count):
 			j = len(expression)
@@ -64,6 +81,8 @@ def _process_expression(expression, parentheses=False):
 	expression = _operator_evals(expression)
 	return expression
 
+# Processes an expression literally when called. 
+# Execute this function by summoning u/DoMyMathBot domath
 def domath(expression):
 	expression = _process_expression(expression, parentheses=False if '(' not in expression else True)
 	return expression
@@ -76,4 +95,5 @@ def process_request(request, comment, redis_server, logger):
 		expression = Expression(''.join(request.split(' ')[2:]))
 		ans = domath(expression)
 		comment.reply('The answer is {0}'.format(ans) + settings.INFO_STRING)
-		
+		logger.info('Adding comment {0} to database'.format(comment.id))
+		redis_server.add_comment(comment)
