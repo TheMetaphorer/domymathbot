@@ -1,7 +1,7 @@
 import math
 import os
 
-VERSION = "2017.4.1"
+VERSION = "2017.4.2"
 INFO_STRING = """
 
 ----
@@ -13,7 +13,7 @@ OPERATORS = ['^', '!', '*', '/','%', '+', '-']
 PRIORITIES = dict(zip([op for op in OPERATORS], [0, 1, 2, 2, 2, 3, 3]))
 CONSTANTS = {'pi':math.pi, 'e':math.e }
 FUNCTIONS = [
-	'sin', 'cos', 'tan', 'log', 'ln',
+	'sin', 'cos', 'tan', 'log',
 	'degrees', 'radians', 'acos', 'asin',
 	'atan', 'sqrt']
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))

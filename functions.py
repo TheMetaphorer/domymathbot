@@ -6,7 +6,7 @@ from components import Expression
 
 def _operator_is_priority(expression, operator):
 	operators_in_expression = [op for op in expression if op in settings.OPERATORS]
-	if any(settings.PRIORITIES[op_] > settings.PRIORITIES[operator] for op_ in operators_in_expression):
+	if any(settings.PRIORITIES[op_] < settings.PRIORITIES[operator] for op_ in operators_in_expression):
 		return False
 	return True
 	

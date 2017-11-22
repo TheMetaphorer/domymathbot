@@ -21,8 +21,12 @@ Will result in the bot replying that the answer is 1000000000.0
 
 # Changelog:
 
+## 2017.4.2
+- Fixed bug where order of operations was backwards
+
 ## 2017.4.1
 - Fixed several bugs
+- Remove ln function
 
 ## 2017.4.0
 - Added support for mathematical functions (eg. sin, cos)

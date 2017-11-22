@@ -5,8 +5,8 @@ import re
 import os
 import time
 import logging
-import functions
 
+import functions
 import settings
 import utils
 
@@ -47,10 +47,13 @@ def scan_subreddit(sub, redis_server):
 		except Exception as e:
 			if 'division by zero' in str(e):
 				logging.warning('Attempted division by zero')
+				redis_server.add_comment(comment)
+				logging.info('Saving redis cache to disk...')
+				redis_server.redis.save()
 				comment.reply("You can't divide by zero! You should've known better." + settings.INFO_STRING)
 			else:
 				logging.warning(str(e))
-				#comment.reply("Oops! There's something wrong! I can't solve this problem!" + settings.INFO_STRING)
+				comment.reply("Oops! There's something wrong! I can't solve this problem! I'll try again later." + settings.INFO_STRING)
 				time.sleep(3)
 
 # Main function of the bot. 
