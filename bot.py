@@ -50,7 +50,7 @@ def scan_subreddit(sub, redis_server):
 				comment.reply("You can't divide by zero! You should've known better." + settings.INFO_STRING)
 			else:
 				logging.warning(str(e))
-				comment.reply("Oops! There's something wrong! I can't solve this problem!" + settings.INFO_STRING)
+				#comment.reply("Oops! There's something wrong! I can't solve this problem!" + settings.INFO_STRING)
 				time.sleep(3)
 
 # Main function of the bot. 

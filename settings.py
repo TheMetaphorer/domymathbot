@@ -1,7 +1,7 @@
 import math
 import os
 
-VERSION = "2017.4.0_DEV"
+VERSION = "2017.4.1"
 INFO_STRING = """
 
 ----
@@ -10,6 +10,7 @@ INFO_STRING = """
 """.format(VERSION)
 
 OPERATORS = ['^', '!', '*', '/','%', '+', '-']
+PRIORITIES = dict(zip([op for op in OPERATORS], [0, 1, 2, 2, 2, 3, 3]))
 CONSTANTS = {'pi':math.pi, 'e':math.e }
 FUNCTIONS = [
 	'sin', 'cos', 'tan', 'log', 'ln',

@@ -1,8 +1,15 @@
-import settings
 import math
+import utils
+import settings
 
-from .components import Expression
+from components import Expression
 
+def _operator_is_priority(expression, operator):
+	operators_in_expression = [op for op in expression if op in settings.OPERATORS]
+	if any(settings.PRIORITIES[op_] > settings.PRIORITIES[operator] for op_ in operators_in_expression):
+		return False
+	return True
+	
 def _replace_values(li, string, ind1, ind2):
 	if len(li) == 3:
 		return [string]
@@ -19,12 +26,13 @@ def _replace_constants(expression):
 def _operator_evals(expression):
 	if any(token in settings.CONSTANTS.keys() for token in expression): _replace_constants(expression)
 	while len(expression) > 1:
-		j = len(expression)
+		j = len(expression)-1
 		for i in range(j):
+			print i, len(expression)
 			if i > len(expression):
 				break
-			if any(i in expression for i in settings.OPERATORS) == False: break
-			if expression[i] in settings.OPERATORS:
+			if any(op in expression for op in settings.OPERATORS) == False: break
+			if expression[i] in settings.OPERATORS and _operator_is_priority(expression, expression[i]):
 				operator = expression[i]
 				num1 = float(expression[i-1])
 				num2 = float(expression[i+1]) if operator != '!' else None
@@ -45,6 +53,8 @@ def _operator_evals(expression):
 					expression = _replace_values(expression, str(num1-num2), i-1, i+2)
 			elif expression[i] in settings.CONSTANTS.keys():
 				expression[i] = settings.CONSTANTS[expression[i]]
+			elif utils.is_printable(str(expression[i])): continue
+			break
 	return expression[0]
 
 # Iterates through the expression from left to right,
@@ -53,19 +63,8 @@ def _operator_evals(expression):
 # And the expression consists of only one number (the answer).
 # Known bug is the non-equivalence of certain signs in
 # The order of operations, (eg. * and /, or + and -)
+
 def _process_expression(expression, parentheses=False):
-	if any(func in token for func in settings.FUNCTIONS for token in expression):
-				for q in range(len(expression)):
-					if any(func in expression[q] for func in settings.FUNCTIONS):
-						f_expr_start = expression[q].index('(')+1
-						f_expr_end = expression[q].index(')')
-						f_expr = Expression(expression[q][f_expr_start:f_expr_end])
-						f_expr_ans = float(_process_expression(f_expr)[0])
-						function = [func for func in settings.FUNCTIONS if func in expression[q]][0]
-						print f_expr_ans
-						attr = getattr(math, function)
-						answer=attr(f_expr_ans)
-						expression[q] = answer
 	def recursive_parentheses(expression):
 		for k in range(expression.sub_expression_count):
 			j = len(expression)
@@ -77,6 +76,17 @@ def _process_expression(expression, parentheses=False):
 						close_par_index=expression[i:].index(')') + i
 						expression= _replace_values(expression, _operator_evals(expression[i+1:close_par_index]), i, close_par_index+1)
 						break
+	if any(func in token for func in settings.FUNCTIONS for token in expression):
+				for q in range(len(expression)):
+					if any(func in expression[q] for func in settings.FUNCTIONS):
+						f_expr_start = expression[q].index('(')+1
+						f_expr_end = expression[q].index(')')
+						f_expr = Expression(expression[q][f_expr_start:f_expr_end])
+						f_expr_ans = float(_process_expression(f_expr)[0])
+						function = [func for func in settings.FUNCTIONS if func in expression[q]][0]
+						attr = getattr(math, function)
+						answer=attr(f_expr_ans)
+						expression[q] = answer
 	if parentheses:	recursive_parentheses(expression)
 	expression = _operator_evals(expression)
 	return expression
@@ -97,3 +107,5 @@ def process_request(request, comment, redis_server, logger):
 		comment.reply('The answer is {0}'.format(ans) + settings.INFO_STRING)
 		logger.info('Adding comment {0} to database'.format(comment.id))
 		redis_server.add_comment(comment)
+	else:
+		logger.warning('Request {0} does not satisfy any commands'.format(request))

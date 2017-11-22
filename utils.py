@@ -1,6 +1,19 @@
 import redis
 import exceptions
 
+from string import printable
+
+def is_printable(string):
+	if any(char in printable for char in string): return True
+	return False
+
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
 class BotCache:
 	"""Cache class for do my math bot. Stores:
 	Comments replied to to prevent duplicate comments
