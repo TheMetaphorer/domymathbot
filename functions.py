@@ -65,6 +65,7 @@ def _operator_evals(expression):
 # The order of operations, (eg. * and /, or + and -)
 
 def _process_expression(expression, parentheses=False):
+	if len(expression) == 1: return expression
 	def recursive_parentheses(expression):
 		for k in range(expression.sub_expression_count):
 			j = len(expression)
@@ -84,6 +85,8 @@ def _process_expression(expression, parentheses=False):
 						f_expr = Expression(expression[q][f_expr_start:f_expr_end])
 						f_expr_ans = float(_process_expression(f_expr)[0])
 						function = [func for func in settings.FUNCTIONS if func in expression[q]][0]
+						print function, ' function'
+						print f_expr_ans
 						attr = getattr(math, function)
 						answer=attr(f_expr_ans)
 						expression[q] = answer

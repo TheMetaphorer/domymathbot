@@ -13,7 +13,7 @@ import utils
 from .exceptions import MissingParenthesesException
 from .components import Expression, nth_index
 
-# OAUTH AUTHENTICATION CODE OMITTED
+
 	
 def configurate_logger():
 	logging.basicConfig(level=logging.INFO,
@@ -27,7 +27,7 @@ def scan_subreddit(sub, redis_server):
 	for comment in subreddit.stream.comments():
 		# Checks to see if the comment is a request to the Math bot.
 		try:
-			if comment.body.lower().startswith('u/domymathbot') and not redis_server.comment_in_database(comment):
+			if comment.body.lower().startswith('u/domymathbot'): #and not redis_server.comment_in_database(comment):
 				logging.info('Received request from u/{0}'.format(comment.author.name))
 				logging.info("Evaluating {0}".format(comment.body))
 				functions.process_request(comment.body, comment, redis_server, logging)

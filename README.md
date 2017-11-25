@@ -21,6 +21,9 @@ Will result in the bot replying that the answer is 1000000000.0
 
 # Changelog:
 
+## 2017.4.3
+- Fixed bug where evaluating functions with a floating point number argument returned the incorrect answer
+
 ## 2017.4.2
 - Fixed bug where order of operations was backwards
 

@@ -22,3 +22,10 @@ class RedisException(Exception):
 		else:
 			super(RedisException, self).__init__("There was a problem with redis.")
 		
+class RecursionException(Exception):
+	
+	def __init__(self, *msg):
+		if msg:
+			super(RecursionException, self).__init__(msg)
+		else:
+			super(RecursionException, self).__init__()
