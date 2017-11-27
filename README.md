@@ -21,6 +21,11 @@ Will result in the bot replying that the answer is 1000000000.0
 
 # Changelog:
 
+## 2017.4.4
+- Fixed bug where bot replied to comments already replied to
+- Fixed bug where ln function was not available
+- Fixed bug where 'log' function returned answer in ln
+
 ## 2017.4.3
 - Fixed bug where evaluating functions with a floating point number argument returned the incorrect answer
 
