@@ -1,7 +1,7 @@
 import math
 import os
 
-VERSION = "2017.4.5"
+VERSION = "2017.4.6"
 INFO_STRING = """
 
 ----

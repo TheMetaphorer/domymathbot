@@ -21,6 +21,9 @@ Will result in the bot replying that the answer is 1000000000.0
 
 # Changelog:
 
+## 2017.4.6
+- Switched support from float to Python Decimal class.
+
 ## 2017.4.5
 - Removed support for round parentheses in functions
 - Fixed bugs several bugs in expression string matching

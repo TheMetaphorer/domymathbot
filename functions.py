@@ -1,4 +1,6 @@
 import math
+import decimal
+
 import utils
 import settings
 
@@ -33,8 +35,8 @@ def _operator_evals(expression):
 			if any(op in expression for op in settings.OPERATORS) == False: break
 			if expression[i] in settings.OPERATORS and _operator_is_priority(expression, expression[i]):
 				operator = expression[i]
-				num1 = float(expression[i-1])
-				num2 = float(expression[i+1]) if operator != '!' else None
+				num1 = decimal.Decimal(expression[i-1])
+				num2 = decimal.Decimal(expression[i+1]) if operator != '!' else None
 				print expression
 				if operator == '^':
 					expression = _replace_values(expression, str(num1**num2), i-1, i+2)
@@ -83,7 +85,7 @@ def _process_expression(expression, parentheses=False):
 						f_expr_start = expression[q].index('(')+1
 						f_expr_end = expression[q].index(')')
 						f_expr = Expression(expression[q][f_expr_start:f_expr_end])
-						f_expr_ans = float(_process_expression(f_expr)[0])
+						f_expr_ans = decimal.Decimal(_process_expression(f_expr)[0])
 						function = [func for func in settings.FUNCTIONS if func in expression[q]][0]
 						print function, f_expr, f_expr_ans
 						if function == 'log':

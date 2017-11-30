@@ -46,3 +46,6 @@ class BotCache:
 		
 	def add_function(self):
 		pass
+	
+	def add_user(self):
+		self.redis.hset('TheMetaphorer', 'default', '0')
