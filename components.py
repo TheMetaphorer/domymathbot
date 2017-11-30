@@ -1,4 +1,4 @@
-import re
+import regex as re
 from itertools import islice
 
 
@@ -12,8 +12,9 @@ def nth_index(iterable, value, n):
 class Expression:
 	
 	def __init__(self, expression):
-		self.pattern = '([0-9.e]+|[\^\*\/\%\+\-\(\)\!]|pi|e|[a-z]+\([\w.\^\*\/\%\+\-\(\)\!]*?\))'
+		self.pattern = '(?<![\d()])(?:-?\d*\.?\d+e?\d*)|[\^!*\/%+-]|pi|e|\w+\(.*?\)'
 		self.components = re.findall(self.pattern, str(expression))
+		print 'COMPONENTS ', str(self.components)
 		while '' in self.components: self.components.remove('')
 		self.sub_expression_count = self.components.count('(') if self.components.count('(') == self.components.count(')') else 0
 		

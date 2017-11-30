@@ -21,6 +21,11 @@ Will result in the bot replying that the answer is 1000000000.0
 
 # Changelog:
 
+## 2017.4.5
+- Removed support for round parentheses in functions
+- Fixed bugs several bugs in expression string matching
+- Added help comment. Request it with u/DoMyMathBot help
+
 ## 2017.4.4
 - Fixed bug where bot replied to comments already replied to
 - Fixed bug where ln function was not available

@@ -28,7 +28,6 @@ def _operator_evals(expression):
 	while len(expression) > 1:
 		j = len(expression)-1
 		for i in range(j):
-			print i, len(expression)
 			if i > len(expression):
 				break
 			if any(op in expression for op in settings.OPERATORS) == False: break
@@ -65,7 +64,8 @@ def _operator_evals(expression):
 # The order of operations, (eg. * and /, or + and -)
 
 def _process_expression(expression, parentheses=False):
-	if len(expression) == 1 and utils.is_number(expression[0]): return expression[0]
+	print expression
+	if len(expression) == 1 and utils.is_number(expression[0]): print expression[0]; return expression[0]
 	def recursive_parentheses(expression):
 		for k in range(expression.sub_expression_count):
 			j = len(expression)
@@ -85,6 +85,7 @@ def _process_expression(expression, parentheses=False):
 						f_expr = Expression(expression[q][f_expr_start:f_expr_end])
 						f_expr_ans = float(_process_expression(f_expr)[0])
 						function = [func for func in settings.FUNCTIONS if func in expression[q]][0]
+						print function, f_expr, f_expr_ans
 						if function == 'log':
 							attr = getattr(math, 'log10')
 						elif function == 'ln':
@@ -100,8 +101,8 @@ def _process_expression(expression, parentheses=False):
 # Processes an expression literally when called. 
 # Execute this function by summoning u/DoMyMathBot domath
 def domath(expression):
-	expression = _process_expression(expression, parentheses=False if '(' not in expression else True)
-	return expression
+	expression_ans = _process_expression(expression, parentheses=False if '(' not in expression else True)
+	return expression_ans
 	
 def process_request(request, comment, redis_server, logger):
 	# Processes a request from a user. It requires the redis_server,
@@ -109,8 +110,14 @@ def process_request(request, comment, redis_server, logger):
 	args = request.split(' ')[:2]
 	if args[1] == 'domath':
 		expression = Expression(''.join(request.split(' ')[2:]))
+		print expression, args, ''.join(request.split(' ')[2:]), ' request'
 		ans = domath(expression)
 		comment.reply('The answer is {0}'.format(ans) + settings.INFO_STRING)
+		logger.info('Adding comment {0} to database'.format(comment.id))
+		redis_server.add_comment(comment)
+	elif args[1] == 'help':
+		comment.reply(settings.HELP_COMMENT)
+		logger.info('u/{0} requested help. Replying with help comment.'.format(comment.author.name))
 		logger.info('Adding comment {0} to database'.format(comment.id))
 		redis_server.add_comment(comment)
 	else:
