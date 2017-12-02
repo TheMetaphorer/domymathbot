@@ -8,12 +8,12 @@ import logging
 import functions
 import settings
 import utils
+import exceptions
 
-from .exceptions import MissingParenthesesException
 from .components import Expression, nth_index
 
 # OAUTH AUTHENTICATION CODE OMITTED
-	
+
 def configurate_logger():
 	logging.basicConfig(level=logging.INFO,
 	                    format='%(asctime)s %(levelname)s %(message)s',)
@@ -40,9 +40,17 @@ def scan_subreddit(sub, redis_server):
 			print 'Rate limit reached. Waiting for {0} seconds...'.format(cooldown_time)
 			time.sleep(cooldown_time)
 		
-		except MissingParenthesesException:
+		except exceptions.MissingParenthesesException:
 			comment.reply("You're missing a closing parentheses!" + settings.INFO_STRING)
+			
+		except exceptions.FunctionExists as e:
+			comment.reply(str(e))
+			time.sleep(3)
 		
+		except exceptions.NotFunctionAuthor as e:
+			comment.reply(str(e))
+			time.sleep(3)
+			
 		except Exception as e:
 			if 'division by zero' in str(e):
 				logging.warning('Attempted division by zero')
@@ -52,12 +60,12 @@ def scan_subreddit(sub, redis_server):
 				comment.reply("You can't divide by zero! You should've known better." + settings.INFO_STRING)
 			else:
 				logging.warning(str(e))
-				comment.reply("Oops! There's something wrong! I can't solve this problem! I'll try again later." + settings.INFO_STRING)
+				comment.reply("Oops! Something went wrong! Here are the details:\n {0}".format(str(e)) + settings.INFO_STRING)
 				time.sleep(3)
 
 # Main function of the bot. 
 def main(args):
 	redis_server = utils.BotCache('localhost', 6379, 0)
 	configurate_logger()
-	logging.info("Starting DoMyMathBot settings.VERSION {0}".format(settings.VERSION))
+	logging.info("Starting DoMyMathBot v{0}".format(settings.VERSION))
 	scan_subreddit(args, redis_server)

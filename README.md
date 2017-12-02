@@ -2,24 +2,51 @@
 
 ### A reddit bot by [u/TheMetaphorer](http://reddit.com/u/TheMetaphorer)
 
-This is a bot that evaluates simple mathematic expressions. It is currently early 
-in its developmental stages, so I plan to add more complex operations and capabilities
-in the future. 
+A bot that evaluates mathematical expressions.
 
-Summon the bot by commenting **u/DoMyMathBot *function* ** on a thread. Currently it is able to process an operation using floating point numbers and the following operators:
+### How to use the bot
 
-^, *, /, %, +, -,
+Summon the bot to perform a task for you with the following phrase: *u/DoMyMathBot _function_ _arguments_; _expression_* It currently supports
+the following functions: _domath_, _help_, _newfunc_, _delfunc_
 
-It also has support for order of operations and parentheses. Nested parentheses work too. 
-Shorthand Exponent support by using a lowercase e, not separated by spaces or any other characters, is also available. Example:
+## u/DoMyMathBot domath; _expression_
 
-*!domath 1e9*
+Substitute _expression_ with your mathematical expression. It supports all the following functions from [python 2's math module:](https://docs.python.org/2/library/math.html)
+sin, cos, tan, log, degrees, radians, acos, asin, atan, and sqrt, with an added ln function. Nested parentheses in functions are currently unavailable. It supports
+the following mathematical operators, evaluated in the follwing order.: ^ (exponentiation), ! (factorialization), * (multiplication), / (division), % (modulus), + (addition),
+ and - (subtraction). Following example of proper usage:
+u/DoMyMathBot domath; (6+6.0+6.0e10)/4^2!
 
-Will result in the bot replying that the answer is 1000000000.0 
+Improper usage:
+
+u/DoMyMathBot 3+39-*(6+4
+
+## u/DoMyMathBot help;
+
+Gives a simple overview of how to use the bot. Will be improved later.
+
+## u/DoMyMathBot newfunc _name_; _expression_
+
+Creates a new function available to the public for everyone to use. However, only the creator of the function may delete or modify the function. 
+substitute _expression_ with your formula or function, substituting arguments where necessary with a single alphabetic character. 
+Currently it doesn't support naming of multiple variables of the same letter, so only a maximum of 26 variables can be used in one function. Example
+using the force of attraction formula:
+
+u/DoMyMathBot newfunc fg; (6.67e-11\*m\*n)/(r^2)
+
+## u/DoMyMathBot delfunc _name_;
+
+Deletes a function. Only the creator of a function may delete it.
 
 ----
 
 # Changelog:
+
+## 2017.5.0
+- Added ability to save mathematical formulas
+- Access using two new commands: newfunc and delfunc
+- Added new function help
+- Command syntax slightly modified. u/DoMyMathBot _command_ _arguments_; _expression_
 
 ## 2017.4.6
 - Switched support from float to Python Decimal class.

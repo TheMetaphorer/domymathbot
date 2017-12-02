@@ -25,11 +25,15 @@ class BotCache:
 			return False
 		return True
 	
+	def is_func(self, name):
+		pass
+	
 	def __init__(self, host, port, db):
 		self.redis = redis.Redis(host=host, port=port, db=db)
 		if not self.is_initialized():
 			self.redis.set('initialized', True)
 			self.redis.hset('replied_comments', 'default', '0')
+			self.redis.hset('functions', 'default', '0')
 			
 	# Adds comment to cache of all comments domymathbot has
 	# replied to.
@@ -44,8 +48,26 @@ class BotCache:
 			return True
 		return False
 		
-	def add_function(self):
-		pass
+	def add_function(self, name, expression, user):
+		if self.redis.hget('functions', name):
+			raise exceptions.FunctionExists
+		if self.redis.hget('function_authors', name) != user:
+			raise exceptions.NotFunctionAuthor
+		self.redis.hset('function_authors', name, user)
+		self.redis.hset('functions', name, expression)
 	
-	def add_user(self):
-		self.redis.hset('TheMetaphorer', 'default', '0')
+	def delete_function(self, name, user):
+		if user != self.redis.hget('function_authors', name):
+			raise exceptions.NotFunctionAuthor
+		self.redis.hdel('functions', name)
+	
+	def get_function(self, name):
+		return self.redis.hget('functions', name)
+		
+	def add_user(self, user):
+		self.redis.hset('u/{0}'.format(user), 'precision', '4')
+		self.redis.hset('u/{0}'.format(user), 'trigmode', 'radians')
+	
+	def get_users(self):
+		return self.redis.scan_iter(match='u/*')
+		

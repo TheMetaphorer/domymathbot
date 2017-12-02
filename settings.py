@@ -1,7 +1,9 @@
 import math
 import os
 
-VERSION = "2017.4.6"
+from redis import Redis
+
+VERSION = "2017.5.0_DEV"
 INFO_STRING = """
 
 ----
@@ -11,9 +13,9 @@ INFO_STRING = """
 HELP_COMMENT = """
 Hi! I'm DoMyMathBot, here to do your math.
 To summon me to solve an expression, mention me, followed by
-the phrase "domath" and your expression." Example:
+the phrase "domath" and a semicolon, and then your expression. Example:
 
-u/DoMyMathBot domath 1+1
+u/DoMyMathBot domath; 1+1
 
 If typing out all the capitalized letters in my name seems tedious,
 case sensitivity doesn't matter to me, so don't worry!
@@ -21,8 +23,7 @@ case sensitivity doesn't matter to me, so don't worry!
 I support the following operators. ^ (exponentiation), ! (factorialization),
 * (multiplication), / (division), % (modulus division), + (addition), and
 - (subtraction). Using me, you can write numbers like this: 1, 1.0, 1e6, or 1.0e6.
-Unfortunately, I currently cannot work with numbers like -1, so please do not place
-your negative numbers at the beginning of expressions. 
+I also have support for negative numbers,
 
 I have limited support for mathematic functions in python's math module which can be found
 [here](https://docs.python.org/2/library/math.html) Currently, I cannot work with parentheses
@@ -39,3 +40,4 @@ FUNCTIONS = [
 	'degrees', 'radians', 'acos', 'asin',
 	'atan', 'sqrt']
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+PUBLIC_FUNCTIONS = Redis(host='localhost', port=6379, db=0).hkeys('functions')

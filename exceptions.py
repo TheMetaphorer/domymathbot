@@ -29,3 +29,14 @@ class RecursionException(Exception):
 			super(RecursionException, self).__init__(msg)
 		else:
 			super(RecursionException, self).__init__()
+
+class FunctionExists(Exception):
+	
+	def __init__(self):
+		super(FunctionExists, self).__init__("This function already exists.")
+		
+
+class NotFunctionAuthor(Exception):
+	
+	def __init__(self):
+		super(NotFunctionAuthor, self).__init__("You can only modify or delete functions you've created.")
