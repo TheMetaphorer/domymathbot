@@ -42,11 +42,16 @@ Deletes a function. Only the creator of a function may delete it.
 
 # Changelog:
 
+## 2017.5.1
+- Fixed more regex matching bugs
+- Cleaned up code
+
 ## 2017.5.0
 - Added ability to save mathematical formulas
 - Access using two new commands: newfunc and delfunc
 - Added new function help
 - Command syntax slightly modified. u/DoMyMathBot _command_ _arguments_; _expression_
+- Fixed regex matching bugs
 
 ## 2017.4.6
 - Switched support from float to Python Decimal class.

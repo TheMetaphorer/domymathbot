@@ -12,7 +12,7 @@ import exceptions
 
 from .components import Expression, nth_index
 
-# OAUTH AUTHENTICATION CODE OMITTED
+#OAUTH AUTHENTICATION CODE OMITTED.
 
 def configurate_logger():
 	logging.basicConfig(level=logging.INFO,
@@ -37,7 +37,7 @@ def scan_subreddit(sub, redis_server):
 				if redis_server.comment_in_database(comment): logging.info('Bypassed {0}; already replied'.format(comment.id))
 		except praw.exceptions.APIException as e:
 			cooldown_time = [float(mins) for mins in str(e) if mins.isdigit()][0] * 60;
-			print 'Rate limit reached. Waiting for {0} seconds...'.format(cooldown_time)
+			logger.warning('Rate limit reached. Waiting for {0} seconds...'.format(cooldown_time))
 			time.sleep(cooldown_time)
 		
 		except exceptions.MissingParenthesesException:
@@ -51,7 +51,7 @@ def scan_subreddit(sub, redis_server):
 			comment.reply(str(e))
 			time.sleep(3)
 			
-		except Exception as e:
+"""		except Exception as e:
 			if 'division by zero' in str(e):
 				logging.warning('Attempted division by zero')
 				redis_server.add_comment(comment)
@@ -61,7 +61,7 @@ def scan_subreddit(sub, redis_server):
 			else:
 				logging.warning(str(e))
 				comment.reply("Oops! Something went wrong! Here are the details:\n {0}".format(str(e)) + settings.INFO_STRING)
-				time.sleep(3)
+				time.sleep(3)"""
 
 # Main function of the bot. 
 def main(args):

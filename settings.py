@@ -3,7 +3,7 @@ import os
 
 from redis import Redis
 
-VERSION = "2017.5.0_DEV"
+VERSION = "2017.5.1"
 INFO_STRING = """
 
 ----

@@ -31,32 +31,22 @@ def _operator_evals(expression):
 	while len(expression) > 1:
 		j = len(expression)-1
 		for i in range(j):
-			if i > len(expression):
-				break
 			if any(op in expression for op in settings.OPERATORS) == False: break
-			if expression[i] in settings.OPERATORS and _operator_is_priority(expression, expression[i]):
-				operator = expression[i]
-				num1 = decimal.Decimal(expression[i-1])
-				num2 = decimal.Decimal(expression[i+1]) if operator != '!' else None
-				print expression
-				if operator == '^':
-					expression = _replace_values(expression, str(num1**num2), i-1, i+2)
-				elif operator == '!':
-					expression = _replace_values(expression, math.factorial(num1), i-1, i+1)
-				elif operator == '*':
-					expression = _replace_values(expression, str(num1*num2), i-1, i+2)
-				elif operator == '/':
-					expression = _replace_values(expression, str(num1/num2), i-1, i+2)
-				elif operator == '%':
-					expression = _replace_values(expression, str(num1%num2), i-1, i+2)
-				elif operator == '+':
-					expression = _replace_values(expression, str(num1+num2), i-1, i+2)
-				elif operator == '-':
-					expression = _replace_values(expression, str(num1-num2), i-1, i+2)
-			elif expression[i] in settings.CONSTANTS.keys():
-				expression[i] = settings.CONSTANTS[expression[i]]
-			elif utils.is_printable(str(expression[i])): continue
-			break
+			print expression, i, j, len(expression)
+			try:
+				if expression[i] in settings.OPERATORS and _operator_is_priority(expression, expression[i]):
+					operator = expression[i]
+					print operator, _operator_is_priority(expression, operator)
+					num1 = decimal.Decimal(expression[i-1])
+					num2 = decimal.Decimal(expression[i+1]) if operator != '!' else None
+					print expression
+					if operator != '!':
+						expression = _replace_values(expression, str(eval("{0}{1}{2}".format(num1, operator, num2).replace('^', '**'))), i-1, i+2)
+					else:
+						expression = _replace_values(expression, str(math.factorial(num1)), i-1, i+2)
+				elif expression[i] in settings.CONSTANTS.keys():
+					expression[i] = settings.CONSTANTS[expression[i]]
+			except IndexError: break
 	return expression[0]
 
 # Iterates through the expression from left to right,

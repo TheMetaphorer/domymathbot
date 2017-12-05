@@ -40,3 +40,11 @@ class NotFunctionAuthor(Exception):
 	
 	def __init__(self):
 		super(NotFunctionAuthor, self).__init__("You can only modify or delete functions you've created.")
+		
+class InvalidArgumentException(Exception):
+	
+	def __init__(self, *msg):
+		if msg:
+			super(InvalidArgumentException, self).__init__(msg)
+		else:
+			super(InvalidArgumentException, self).__init__("Invalid argument. ")
