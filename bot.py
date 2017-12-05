@@ -12,7 +12,7 @@ import exceptions
 
 from .components import Expression, nth_index
 
-#OAUTH AUTHENTICATION CODE OMITTED.
+# OAUTH AUTHENTICATION CODE OMITTED
 
 def configurate_logger():
 	logging.basicConfig(level=logging.INFO,
@@ -51,7 +51,7 @@ def scan_subreddit(sub, redis_server):
 			comment.reply(str(e))
 			time.sleep(3)
 			
-"""		except Exception as e:
+		except Exception as e:
 			if 'division by zero' in str(e):
 				logging.warning('Attempted division by zero')
 				redis_server.add_comment(comment)
@@ -61,7 +61,7 @@ def scan_subreddit(sub, redis_server):
 			else:
 				logging.warning(str(e))
 				comment.reply("Oops! Something went wrong! Here are the details:\n {0}".format(str(e)) + settings.INFO_STRING)
-				time.sleep(3)"""
+				time.sleep(3)
 
 # Main function of the bot. 
 def main(args):

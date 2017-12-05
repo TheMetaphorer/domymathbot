@@ -12,7 +12,7 @@ def nth_index(iterable, value, n):
 class Expression:
 	
 	def __init__(self, expression):
-		self.pattern = re.compile(r'(?<![\d])-?\d*\.?\d+(?:e-?)?\d*|[\^!*\/%+\(\)-]|pi|e|\w+\(.*?\)')
+		self.pattern = re.compile(r'(?<![\d])-?\d*\.?\d+(?:e-?)?\d*|[\^!*\/%+\(\)-]|pi|e|G|\w+\(.*?\)')
 		self.components = re.findall(self.pattern, str(expression))
 		print 'COMPONENTS ', str(self.components)
 		while '' in self.components: self.components.remove('')

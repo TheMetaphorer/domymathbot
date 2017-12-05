@@ -42,6 +42,9 @@ Deletes a function. Only the creator of a function may delete it.
 
 # Changelog:
 
+## 2017.5.2
+- Add constant of Universal Gravitation `G` (equivalent to 6.67e-11)
+
 ## 2017.5.1
 - Fixed more regex matching bugs
 - Cleaned up code

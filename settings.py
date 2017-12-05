@@ -1,9 +1,10 @@
 import math
 import os
 
+from decimal import Decimal
 from redis import Redis
 
-VERSION = "2017.5.1"
+VERSION = "2017.5.2"
 INFO_STRING = """
 
 ----
@@ -34,7 +35,7 @@ I might just surprise you!""" + INFO_STRING
 
 OPERATORS = ['^', '!', '*', '/','%', '+', '-']
 PRIORITIES = dict(zip([op for op in OPERATORS], [0, 1, 2, 2, 2, 3, 3]))
-CONSTANTS = {'pi':math.pi, 'e':math.e }
+CONSTANTS = {'pi':math.pi, 'e':math.e, 'G': Decimal('6.67e-11')}
 FUNCTIONS = [
 	'sin', 'cos', 'tan', 'log', 'ln',
 	'degrees', 'radians', 'acos', 'asin',
